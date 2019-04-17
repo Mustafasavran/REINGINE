@@ -14,10 +14,22 @@ ShaderProgram::~ShaderProgram()
 	glDeleteProgram(m_programID);
 }
 
+void ShaderProgram::setUniform4fv(std::string variableName, float* mat4)
+{
+	int location = glGetUniformLocation(m_programID, variableName.c_str());
+	glUniformMatrix4fv(location, 1, GL_FALSE, mat4);
+}
+
 void ShaderProgram::setUniform4f(std::string variableName, float x, float y, float z, float w)
 {
-	int vertexColorLocation = glGetUniformLocation(m_programID, variableName.c_str());
-	glUniform4f(vertexColorLocation, x, y, z, w);
+	int location = glGetUniformLocation(m_programID, variableName.c_str());
+	glUniform4f(location, x, y, z, w);
+}
+
+void ShaderProgram::setUniform1i(std::string variableName, int x)
+{
+	int location = glGetUniformLocation(m_programID, variableName.c_str());
+	glUniform1i(location, x);
 }
 
 void ShaderProgram::init(std::string vertexPath, std::string fragmentPath)

@@ -1,8 +1,8 @@
-#include <GLAD\glad.h>
 #include "Window.h"
 #include <iostream>
 
 Window::Window(int windowWidth, int windowHeight, std::string windowName)
+	: m_windowHeight(windowHeight), m_windowWidth(windowWidth)
 {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -56,6 +56,16 @@ bool Window::isWindowShouldClose()
 GLFWwindow* Window::getWindow()
 {
 	return m_window;
+}
+
+unsigned int Window::getWindowHeight()
+{
+	return m_windowHeight;
+}
+
+unsigned int Window::getWindowWidth()
+{
+	return m_windowWidth;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

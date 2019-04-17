@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class ShaderProgram
 {
 public:
@@ -9,6 +13,8 @@ public:
 	void useProgram();
 	void stopProgram();
 	void setUniform4f(std::string variableName, float x, float y, float z, float w);
+	void setUniform1i(std::string variableName, int x);
+	void setUniform4fv(std::string variableName, float* mat4);
 
 private:
 	void init(std::string vertexPath, std::string fragmentPath);
