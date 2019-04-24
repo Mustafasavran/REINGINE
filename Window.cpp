@@ -26,6 +26,8 @@ Window::Window(int windowWidth, int windowHeight, std::string windowName)
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 	}
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 Window::~Window()

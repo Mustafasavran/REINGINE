@@ -7,22 +7,23 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-void Renderer::render(Window& window, ShaderProgram& shaderProgram, std::vector<Entity*> entityList)
+
+void Renderer::render(Window & window, ShaderProgram & shaderProgram, std::vector<Entity*> entityList)
 {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shaderProgram.useProgram();
-	
+
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
-	
+
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, 0.0f));
 	projection = glm::perspective(glm::radians(90.0f), (float)window.getWindowWidth() / (float)window.getWindowHeight(), 0.1f, 100.0f);
 
 	shaderProgram.setUniform4fv("view", glm::value_ptr(view));
 	shaderProgram.setUniform4fv("projection", glm::value_ptr(projection));
 	shaderProgram.setUniform1i("texture1", 0);
-	shaderProgram.setUniform1i("texture2", 1);
+	//shaderProgram.setUniform1i("texture2", 1);
 
 	for (Entity* entity : entityList)
 	{
@@ -32,7 +33,7 @@ void Renderer::render(Window& window, ShaderProgram& shaderProgram, std::vector<
 		model = glm::rotate(model, glm::radians(entity->getRotationVector().z), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(entity->getRotationVector().y), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(entity->getRotationVector().x), glm::vec3(1.0f, 0.0f, 0.0f));
-		
+
 		shaderProgram.setUniform4fv("model", glm::value_ptr(model));
 
 		glBindVertexArray(entity->getVaoID());

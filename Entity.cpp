@@ -1,13 +1,11 @@
 #include "Entity.h"
 #include <GLAD\glad.h>
 
-Entity::Entity(Vector3f worldTranslation, Vector3f worldRotation, float worldScale, std::vector<float>& vertices, std::vector<unsigned int>& indices)
-	: m_translationVector(worldTranslation.x, worldTranslation.y, worldTranslation.z),
+Entity::Entity(RawEntity& rawEntity, Vector3f worldTranslation, Vector3f worldRotation, float worldScale)
+	: rawEntity(rawEntity), m_translationVector(worldTranslation.x, worldTranslation.y, worldTranslation.z),
 	  m_rotationVector(worldRotation.x, worldRotation.y, worldRotation.z), m_scale(worldScale)
 {
-	m_vertexCount = vertices.size();
-	m_indexCount = indices.size();
-	init(vertices, indices);
+	init(rawEntity.getVertices(), rawEntity.getIndices());
 }
 
 Entity::~Entity()
@@ -27,17 +25,47 @@ void Entity::init(std::vector<float>& vertices, std::vector<unsigned int>& indic
 	unsigned int EBO;
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexCount * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, rawEntity.indexCount() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_vertexCount * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glBufferData(GL_ARRAY_BUFFER, rawEntity.vertexCount() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*) 0);
 	glEnableVertexAttribArray(0);
 
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	glBindVertexArray(0);
+
+	m_vboList.push_back(VBO);
+	m_vboList.push_back(EBO);
+}
+
+void Entity::init2(std::vector<float>& vertices, std::vector<unsigned int>& indices)
+{
+	glGenVertexArrays(1, &m_vaoID);
+	glBindVertexArray(m_vaoID);
+
+	unsigned int EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, rawEntity.indexCount() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, rawEntity.vertexCount() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 
@@ -84,11 +112,11 @@ unsigned int Entity::getVaoID()
 
 unsigned int Entity::getIndexCount()
 {
-	return m_indexCount;
+	return rawEntity.indexCount();
 }
 
 
 unsigned int Entity::getVertexCount()
 {
-	return m_vertexCount;
+	return rawEntity.vertexCount();
 }

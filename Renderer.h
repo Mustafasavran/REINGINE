@@ -4,8 +4,8 @@
 #include "ShaderProgram.h"
 #include "Window.h"
 
-class Renderer
+
+namespace Renderer
 {
-public:
-	static void render(Window& window, ShaderProgram& shaderProgram, std::vector<Entity*> entityList);
-};
+	void render(Window& window, ShaderProgram& shaderProgram, std::vector<Entity*> entityList);
+}
