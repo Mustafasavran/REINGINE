@@ -5,6 +5,7 @@
 #include <iostream>
 
 ShaderProgram::ShaderProgram(std::string vertexPath, std::string fragmentPath)
+	: m_isProgramUsed(false)
 {
 	init(vertexPath, fragmentPath);
 }
@@ -18,6 +19,11 @@ void ShaderProgram::setUniform4fv(std::string variableName, float* mat4)
 {
 	int location = glGetUniformLocation(m_programID, variableName.c_str());
 	glUniformMatrix4fv(location, 1, GL_FALSE, mat4);
+}
+
+bool ShaderProgram::isProgramUsed()
+{
+	return m_isProgramUsed;
 }
 
 void ShaderProgram::setUniform4f(std::string variableName, float x, float y, float z, float w)
@@ -93,9 +99,11 @@ void ShaderProgram::init(std::string vertexPath, std::string fragmentPath)
 void ShaderProgram::useProgram()
 {
 	glUseProgram(m_programID);
+	m_isProgramUsed = true;
 }
 
 void ShaderProgram::stopProgram()
 {
 	glUseProgram(0);
+	m_isProgramUsed = false;
 }

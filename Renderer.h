@@ -2,10 +2,12 @@
 #include <vector>
 #include "Entity.h"
 #include "ShaderProgram.h"
+#include "EntityShaderProgram.h"
+#include "Camera.h"
 #include "Window.h"
 
 
 namespace Renderer
 {
-	void render(Window& window, ShaderProgram& shaderProgram, std::vector<Entity*> entityList);
+	void renderEntities(EntityShaderProgram& entityShaderProgram, Camera& camera, std::vector<Entity*> entityList);
 }

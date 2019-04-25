@@ -6,7 +6,7 @@
 #include <GLAD\glad.h>
 
 Texture::Texture(std::string texturePath, unsigned int textureUnit)
-	: m_textureID{ 0 }
+	: m_textureID{ 0 }, m_textureUnit(textureUnit)
 {
 	init(texturePath, textureUnit);
 }
@@ -49,4 +49,14 @@ void Texture::init(std::string& texturePath, unsigned int textureUnit)
 	}
 	stbi_image_free(data);
 
+}
+
+unsigned int Texture::getTextureUnit()
+{
+	return m_textureUnit;
+}
+
+unsigned int Texture::getTextureID()
+{
+	return m_textureID;
 }

@@ -5,7 +5,7 @@
 class Vertex
 {
 public:
-	Vertex(Vector3f position) : position(position.x, position.y, position.z), textureIndex(-1), normalIndex(-1) {};
+	Vertex(Vector3f position) : position(position), textureIndex(-1), normalIndex(-1) {};
 	bool isSet() { return (textureIndex != -1 && normalIndex != -1) ? true : false; }
 	std::vector<unsigned int> duplicateIndices;
 	int textureIndex;
