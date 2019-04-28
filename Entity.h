@@ -8,6 +8,7 @@ class Entity
 {
 public:
 	Entity(RawEntity& rawEntity, Texture& texture, Vector3f worldTranslation, Vector3f worldRotation, float worldScale);
+	virtual ~Entity();
 	unsigned int getVaoID();
 	unsigned int getTextureID();
 	unsigned int getTextureUnit();

@@ -6,6 +6,10 @@ Entity::Entity(RawEntity& rawEntity, Texture& texture, Vector3f worldTranslation
 {
 }
 
+Entity::~Entity()
+{
+}
+
 Vector3f Entity::getTranslationVector()
 {
 	return m_translationVector;

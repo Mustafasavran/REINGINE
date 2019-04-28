@@ -9,6 +9,8 @@
 #include "OBJLoader.h"
 #include "Terrain.h"
 #include "Camera.h"
+#include "InputHandler.h"
+#include "InteractableEntity.h"
 
 
 int main()
@@ -16,7 +18,8 @@ int main()
 	Window window(800, 450, std::string("Kaimon"));
 	EntityShaderProgram entityShaderProgram("res/shaders/VertexShader.vert", "res/shaders/FragmentShader.frag");
 	entityShaderProgram.loadProjectionMatrix(800.0f, 450.0f, 60.0f, 0.1f, 100.0f);
-	Camera camera(Vector3f(0.0f, 10.0f, 5.0f), Vector3f(0.0f, -2.0f, -1.0f), Vector3f(0.0f, 1.0f, 0.0f));
+	//Camera camera(Vector3f(0.0f, 10.0f, 5.0f), Vector3f(0.0f, -2.0f, -1.0f), Vector3f(0.0f, 1.0f, 0.0f));
+	Camera camera(Vector3f(0.0f, 9.0f, 3.0f), Vector3f(0.0f, -3.0f, -1.0f), Vector3f(0.0f, 1.0f, 0.0f));
 
 	RawEntity rawEntity = OBJLoader::loadFile("res/models/wallCube.obj");
 	RawEntity rawTerrain = Terrain::createTerrain(20, 20);
@@ -24,12 +27,16 @@ int main()
 	Texture texture2("res/textures/wall.jpg", 1);
 
 	Entity terrain(rawTerrain, texture1, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
-	Entity entity(rawEntity, texture2, Vector3f(0.0f, 1.0f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+	InteractableEntity entity(rawEntity, texture2, Vector3f(0.0f, 1.0f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
 	std::vector<Entity*> entityList = { &terrain, &entity };
+	std::vector<InteractableEntity*> interactableEntityList = { &entity };
+
+	InputHandler inputHandler(window, camera, interactableEntityList);
 	
 	while (!window.isWindowShouldClose())
 	{
-		window.processInput();
+		camera.update();
+		entity.update();
 		// entity.increaseRotationVector(0.0f, 1.0f, 0.0f);
 		Renderer::renderEntities(entityShaderProgram, camera, entityList);
 		window.update();
