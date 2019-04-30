@@ -93,7 +93,8 @@ RawEntity OBJLoader::loadFile(std::string path)
 		Vector3f& vec3Pos = vertex.position;
 		Vector2f& vec2Tex = vt.at(vertex.textureIndex);
 		Vector3f& vec3Norm = vn.at(vertex.normalIndex);
-		float fArray[] = { vec3Pos.x, vec3Pos.y, vec3Pos.z, vec2Tex.x, vec2Tex.y };
+		//float fArray[] = { vec3Pos.x, vec3Pos.y, vec3Pos.z, vec2Tex.x, vec2Tex.y };
+		float fArray[] = { vec3Pos.x, vec3Pos.y, vec3Pos.z, vec2Tex.x, vec2Tex.y, vec3Norm.x, vec3Norm.y, vec3Norm.z };
 		for (float f : fArray)
 			finalVertexList.push_back(f);
 	}

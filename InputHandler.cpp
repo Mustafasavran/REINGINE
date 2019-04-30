@@ -18,6 +18,22 @@ void InputHandler::key_callback(GLFWwindow* window, int key, int scancode, int a
 			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_W, false));
 		else if (key == GLFW_KEY_W && action == GLFW_RELEASE)
 			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_W, false));
+		else if (key == GLFW_KEY_S && action == GLFW_PRESS)
+			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_S, false));
+		else if (key == GLFW_KEY_S && action == GLFW_RELEASE)
+			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_S, false));
+		else if (key == GLFW_KEY_A && action == GLFW_PRESS)
+			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_A, false));
+		else if (key == GLFW_KEY_A && action == GLFW_RELEASE)
+			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_A, false));
+		else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_D, false));
+		else if (key == GLFW_KEY_D && action == GLFW_RELEASE)
+			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_D, false));
+		else if (key == GLFW_KEY_R && action == GLFW_PRESS)
+			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_R, false));
+		else if (key == GLFW_KEY_R && action == GLFW_RELEASE)
+			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_R, false));
 	}
 
 }

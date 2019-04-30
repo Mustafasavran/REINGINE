@@ -78,3 +78,15 @@ void EntityShaderProgram::loadTexture(unsigned int textureUnit)
 		stopProgram();
 	}
 }
+
+void EntityShaderProgram::loadViewPos(Camera& camera)
+{
+	if (isProgramUsed())
+		setUniform3f("viewPos", camera.getPositionVec().x, camera.getPositionVec().y, camera.getPositionVec().z);
+	else
+	{
+		useProgram();
+		setUniform3f("viewPos", camera.getPositionVec().x, camera.getPositionVec().y, camera.getPositionVec().z);
+		stopProgram();
+	}
+}

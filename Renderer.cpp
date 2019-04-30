@@ -13,6 +13,7 @@ void Renderer::renderEntities(EntityShaderProgram& entityShaderProgram, Camera& 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	entityShaderProgram.useProgram();
 
+	entityShaderProgram.loadViewPos(camera);
 	entityShaderProgram.loadViewMatrix(camera);
 
 	for (Entity* entity : entityList)

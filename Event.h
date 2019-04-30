@@ -11,6 +11,7 @@ public:
 		MOUSE_SCROLL,
 
 		KEY_W, KEY_S, KEY_A, KEY_D,
+		KEY_R, 
 		KEY_UP, KEY_DOWN
 	};
 	

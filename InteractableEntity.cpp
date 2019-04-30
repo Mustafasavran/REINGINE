@@ -16,6 +16,14 @@ void InteractableEntity::update()
 	{
 		if (Event::KEY_W == it->state)
 			moveForward();
+		else if (Event::KEY_S == it->state)
+			moveBackward();
+		else if (Event::KEY_A == it->state)
+			moveLeft();
+		else if (Event::KEY_D == it->state)
+			moveRight();
+		else if(Event::KEY_R == it->state)
+			increaseRotationVector(0.0f, 1.0f, 0.0f);
 	}
 	m_eventHandler.deleteOneFrameEventsFromList();
 }

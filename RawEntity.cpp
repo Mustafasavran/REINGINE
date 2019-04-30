@@ -6,7 +6,7 @@ RawEntity::RawEntity(std::vector<float>&& vertices, std::vector<unsigned int>&& 
 	: m_vertices(std::move(vertices)), m_indices(std::move(indices))
 {
 	std::cout << "raw entity constructor\n";
-	init(m_vertices, m_indices);
+	init2(m_vertices, m_indices);
 }
 
 RawEntity::~RawEntity()

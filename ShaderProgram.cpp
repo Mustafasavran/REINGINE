@@ -26,6 +26,12 @@ bool ShaderProgram::isProgramUsed()
 	return m_isProgramUsed;
 }
 
+void ShaderProgram::setUniform3f(std::string variableName, float x, float y, float z)
+{
+	int location = glGetUniformLocation(m_programID, variableName.c_str());
+	glUniform3f(location, x, y, z);
+}
+
 void ShaderProgram::setUniform4f(std::string variableName, float x, float y, float z, float w)
 {
 	int location = glGetUniformLocation(m_programID, variableName.c_str());
@@ -107,3 +113,4 @@ void ShaderProgram::stopProgram()
 	glUseProgram(0);
 	m_isProgramUsed = false;
 }
+

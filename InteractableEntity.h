@@ -7,7 +7,7 @@
 class InteractableEntity : public Entity
 {
 public:
-	InteractableEntity::InteractableEntity(RawEntity& rawEntity, Texture& texture, Vector3f worldTranslation, Vector3f worldRotation, float worldScale);
+	InteractableEntity(RawEntity& rawEntity, Texture& texture, Vector3f worldTranslation, Vector3f worldRotation, float worldScale);
 	void update();
 	EventHandler& getEventHandler();
 	

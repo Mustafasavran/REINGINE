@@ -12,4 +12,5 @@ public:
 	void loadViewMatrix(Camera& camera);
 	void loadProjectionMatrix(float width, float height, float fov, float near, float far);
 	void loadTexture(unsigned int textureUnit);
+	void loadViewPos(Camera& camera);
 };

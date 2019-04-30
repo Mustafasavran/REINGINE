@@ -12,6 +12,7 @@ public:
 	virtual ~ShaderProgram();
 	void useProgram();
 	void stopProgram();
+	void setUniform3f(std::string variableName, float x, float y, float z);
 	void setUniform4f(std::string variableName, float x, float y, float z, float w);
 	void setUniform1i(std::string variableName, int x);
 	void setUniform4fv(std::string variableName, float* mat4);

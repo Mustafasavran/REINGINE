@@ -24,10 +24,11 @@ int main()
 	RawEntity rawEntity = OBJLoader::loadFile("res/models/wallCube.obj");
 	RawEntity rawTerrain = Terrain::createTerrain(20, 20);
 	Texture texture1("res/textures/checker128.png", 0);
-	Texture texture2("res/textures/wall.jpg", 1);
+	Texture texture2("res/textures/reddish.png", 1);
 
 	Entity terrain(rawTerrain, texture1, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
 	InteractableEntity entity(rawEntity, texture2, Vector3f(0.0f, 1.0f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), 1.0f);
+	//InteractableEntity entity(rawEntity, texture2, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(0.0f, 0.0f, 0.0f), 0.2f);
 	std::vector<Entity*> entityList = { &terrain, &entity };
 	std::vector<InteractableEntity*> interactableEntityList = { &entity };
 
@@ -37,7 +38,7 @@ int main()
 	{
 		camera.update();
 		entity.update();
-		// entity.increaseRotationVector(0.0f, 1.0f, 0.0f);
+		//entity.increaseRotationVector(0.0f, 1.0f, 0.0f);
 		Renderer::renderEntities(entityShaderProgram, camera, entityList);
 		window.update();
 	}
