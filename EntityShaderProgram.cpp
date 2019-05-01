@@ -90,3 +90,24 @@ void EntityShaderProgram::loadViewPos(Camera& camera)
 		stopProgram();
 	}
 }
+
+void EntityShaderProgram::loadLight(Light& light)
+{
+	if (isProgramUsed())
+	{
+		setUniform3f("light.position", light.getPositionVec().x, light.getPositionVec().y, light.getPositionVec().z);
+		setUniform3f("light.ambient", light.getAmbientColor().x, light.getAmbientColor().y, light.getAmbientColor().z);
+		setUniform3f("light.diffuse", light.getDiffuseColor().x, light.getDiffuseColor().y, light.getDiffuseColor().z);
+		setUniform3f("light.specular", light.getSpecularColor().x, light.getSpecularColor().y, light.getSpecularColor().z);
+	}
+		
+	else
+	{
+		useProgram();
+		setUniform3f("light.position", light.getPositionVec().x, light.getPositionVec().y, light.getPositionVec().z);
+		setUniform3f("light.ambient", light.getAmbientColor().x, light.getAmbientColor().y, light.getAmbientColor().z);
+		setUniform3f("light.diffuse", light.getDiffuseColor().x, light.getDiffuseColor().y, light.getDiffuseColor().z);
+		setUniform3f("light.specular", light.getSpecularColor().x, light.getSpecularColor().y, light.getSpecularColor().z);
+		stopProgram();
+	}
+}

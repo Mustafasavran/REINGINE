@@ -1,6 +1,6 @@
 #pragma once
 #include "RawEntity.h"
-
+#include <string>
 
 
 namespace OBJLoader

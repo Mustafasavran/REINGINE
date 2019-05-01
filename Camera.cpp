@@ -5,9 +5,9 @@ Camera::Camera(Vector3f positionVec, Vector3f frontVec, Vector3f upVec)
 {
 }
 
-void Camera::update()
+void Camera::update(float deltaTime)
 {
-	std::vector<Event> eventList = m_eventHandler.getEventList();
+	std::vector<Event>& eventList = m_eventHandler.getEventList();
 	if (eventList.empty())
 		return;
 
@@ -60,8 +60,8 @@ void Camera::moveVertical(double xoffset, double yoffset)
 	if (yoffset == 1.0 && m_positionVec.y <= 5)
 		return;
 
-	float ratio = -yoffset * (m_frontVec.y / m_frontVec.z);
+	float ratio = -float(yoffset) * (m_frontVec.y / m_frontVec.z);
 	float dx = ratio / 6.0f;
-	float dy = -yoffset / 6.0f;
+	float dy = -float(yoffset) / 6.0f;
 	increasePositionVec(0.0f, dx, dy);
 }

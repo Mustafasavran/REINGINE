@@ -8,7 +8,7 @@ class Camera
 {
 public:
 	Camera(Vector3f positionVec, Vector3f frontVec, Vector3f upVec);
-	void update();
+	void update(float deltaTime);
 	EventHandler& getEventHandler();
 
 	Vector3f getPositionVec();

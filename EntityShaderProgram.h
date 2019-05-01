@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Camera.h"
 #include "Texture.h"
+#include "Light.h"
 
 class EntityShaderProgram : public ShaderProgram
 {
@@ -13,4 +14,5 @@ public:
 	void loadProjectionMatrix(float width, float height, float fov, float near, float far);
 	void loadTexture(unsigned int textureUnit);
 	void loadViewPos(Camera& camera);
+	void loadLight(Light& light);
 };

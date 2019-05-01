@@ -6,24 +6,24 @@ InteractableEntity::InteractableEntity(RawEntity& rawEntity, Texture& texture, V
 {
 }
 
-void InteractableEntity::update()
+void InteractableEntity::update(float deltaTime)
 {
-	std::vector<Event> eventList = m_eventHandler.getEventList();
+	std::vector<Event>& eventList = m_eventHandler.getEventList();
 	if (eventList.empty())
 		return;
 
 	for (std::vector<Event>::iterator it = eventList.begin(); it != eventList.end(); ++it)
 	{
 		if (Event::KEY_W == it->state)
-			moveForward();
+			moveForward(deltaTime);
 		else if (Event::KEY_S == it->state)
-			moveBackward();
+			moveBackward(deltaTime);
 		else if (Event::KEY_A == it->state)
-			moveLeft();
+			moveLeft(deltaTime);
 		else if (Event::KEY_D == it->state)
-			moveRight();
-		else if(Event::KEY_R == it->state)
-			increaseRotationVector(0.0f, 1.0f, 0.0f);
+			moveRight(deltaTime);
+		else if (Event::KEY_R == it->state)
+			rotateAroundYAxis(deltaTime);
 	}
 	m_eventHandler.deleteOneFrameEventsFromList();
 }
@@ -34,22 +34,32 @@ EventHandler& InteractableEntity::getEventHandler()
 }
 
 
-void InteractableEntity::moveForward()
+void InteractableEntity::moveForward(float deltaTime)
 {
-	increaseTranslationVector(0.0f, 0.0f, -2.0f / 60.0f);
+	float dz = -10.0f * deltaTime;
+	increaseTranslationVector(0.0f, 0.0f, dz);
 }
 
-void InteractableEntity::moveBackward()
+void InteractableEntity::moveBackward(float deltaTime)
 {
-	increaseTranslationVector(0.0f, 0.0f, 2.0f / 60.0f);
+	float dz = 10.0f * deltaTime;
+	increaseTranslationVector(0.0f, 0.0f, dz);
 }
 
-void InteractableEntity::moveRight()
+void InteractableEntity::moveRight(float deltaTime)
 {
-	increaseTranslationVector(2.0f / 60.0f, 0.0f, 0.0f);
+	float dx = 10.0f * deltaTime;
+	increaseTranslationVector(dx, 0.0f, 0.0f);
 }
 
-void InteractableEntity::moveLeft()
+void InteractableEntity::moveLeft(float deltaTime)
 {
-	increaseTranslationVector(-2.0f / 60.0f, 0.0f, 0.0f);
+	float dx = -10.0f * deltaTime;
+	increaseTranslationVector(dx, 0.0f, 0.0f);
+}
+
+void InteractableEntity::rotateAroundYAxis(float deltaTime)
+{
+	float dy = 60.0f * deltaTime;
+	increaseRotationVector(0.0f, dy, 0.0f);
 }
