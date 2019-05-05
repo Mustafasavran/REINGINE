@@ -24,13 +24,26 @@ void InteractableEntity::update(float deltaTime)
 			moveRight(deltaTime);
 		else if (Event::KEY_R == it->state)
 			rotateAroundYAxis(deltaTime);
+		else if (Event::MOUSE_BUTTON_RIGHT_PRESSED == it->state)
+		{
+			if (!moveTo(Vector3f(it->x, it->y, it->z), deltaTime))
+				it->isOneFrameEvent = true;
+		}
+		else
+			it->isOneFrameEvent = true;
+			
 	}
 	m_eventHandler.deleteOneFrameEventsFromList();
 }
 
-EventHandler& InteractableEntity::getEventHandler()
+void InteractableEntity::addEventToList(Event aEvent)
 {
-	return m_eventHandler;
+	m_eventHandler.addEventToList(aEvent);
+}
+
+void InteractableEntity::removeEventFromList(Event aEvent)
+{
+	m_eventHandler.removeEventFromList(aEvent);
 }
 
 
@@ -62,4 +75,24 @@ void InteractableEntity::rotateAroundYAxis(float deltaTime)
 {
 	float dy = 60.0f * deltaTime;
 	increaseRotationVector(0.0f, dy, 0.0f);
+}
+
+bool InteractableEntity::moveTo(Vector3f pos, float deltaTime)
+{
+	Vector3f entityPos = getTranslationVector();
+	Vector3f deltaPos(pos.x - entityPos.x, pos.y - entityPos.y, pos.z - entityPos.z);
+	float length = 0.0f;
+	length += pow(deltaPos.x, 2);
+	length += pow(deltaPos.y, 2);
+	length += pow(deltaPos.z, 2);
+	length = sqrt(length);
+
+	if (length <= 0.1f)
+		return false;
+
+	float constant = 10.0f * deltaTime;
+	Vector3f normPos(constant * deltaPos.x / length, constant * deltaPos.y / length, constant * deltaPos.z / length);
+
+	increaseTranslationVector(normPos.x, normPos.y, normPos.z);
+	return true;
 }

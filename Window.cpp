@@ -6,6 +6,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 Window::Window(int windowWidth, int windowHeight, std::string windowName)
 	: m_windowHeight(windowHeight), m_windowWidth(windowWidth)
@@ -28,6 +29,7 @@ Window::Window(int windowWidth, int windowHeight, std::string windowName)
 	glfwSetKeyCallback(m_window, key_callback);
 	glfwSetCursorPosCallback(m_window, cursor_position_callback);
 	glfwSetScrollCallback(m_window, scroll_callback);
+	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -96,8 +98,16 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	inputHandler->scroll_callback(window, xoffset, yoffset);
 }
 
-// doesnt adjust projection matrix
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	InputHandler* inputHandler = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	inputHandler->mouse_button_callback(window, button, action, mods);
+}
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	InputHandler* inputHandler = static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	inputHandler->framebuffer_size_callback(window, width, height);
 }

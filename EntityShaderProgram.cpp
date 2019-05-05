@@ -1,31 +1,22 @@
 #include "EntityShaderProgram.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "MathCalc.h"
 
 EntityShaderProgram::EntityShaderProgram(std::string vertexPath, std::string fragmentPath)
 	: ShaderProgram(vertexPath, fragmentPath)
 {
-	
 }
 
 void EntityShaderProgram::loadTransformationMatrix(Entity& entity)
 {
-	glm::mat4 model = glm::mat4(1.0f);
-
-	model = glm::translate(model, glm::vec3(entity.getTranslationVector().x, entity.getTranslationVector().y, entity.getTranslationVector().z));
-	model = glm::rotate(model, glm::radians(entity.getRotationVector().z), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::rotate(model, glm::radians(entity.getRotationVector().y), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(entity.getRotationVector().x), glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::scale(model, glm::vec3(entity.getScale(), entity.getScale(), entity.getScale()));
+	float fArray[16];
+	MathCalc::createTransformationMatrix(entity, fArray);
 
 	if(isProgramUsed())
-		setUniform4fv("model", glm::value_ptr(model));
+		setUniform4fv("model", fArray);
 	else
 	{
 		useProgram();
-		setUniform4fv("model", glm::value_ptr(model));
+		setUniform4fv("model", fArray);
 		stopProgram();
 	}
 
@@ -33,36 +24,31 @@ void EntityShaderProgram::loadTransformationMatrix(Entity& entity)
 
 void EntityShaderProgram::loadViewMatrix(Camera& camera)
 {
-	glm::mat4 view = glm::mat4(1.0f);
-	glm::vec3 cameraFront = glm::vec3(camera.getFrontVec().x, camera.getFrontVec().y, camera.getFrontVec().z);
-	glm::vec3 cameraPos = glm::vec3(camera.getPositionVec().x, camera.getPositionVec().y, camera.getPositionVec().z);
-	glm::vec3 cameraUp = glm::vec3(camera.getUpVec().x, camera.getUpVec().y, camera.getUpVec().z);
-	cameraFront = glm::normalize(cameraFront);
-
-	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	float fArray[16];
+	MathCalc::createViewMatrix(camera, fArray);
 	
 	if (isProgramUsed())
-		setUniform4fv("view", glm::value_ptr(view));
+		setUniform4fv("view", fArray);
 	else
 	{
 		useProgram();
-		setUniform4fv("view", glm::value_ptr(view));
+		setUniform4fv("view", fArray);
 		stopProgram();
 	}
 
 }
 
-void EntityShaderProgram::loadProjectionMatrix(float width, float height, float fov, float near, float far)
+void EntityShaderProgram::loadProjectionMatrix(ViewFrustum& frustum)
 {
-	glm::mat4 projection = glm::mat4(1.0f);
-	projection = glm::perspective(glm::radians(fov), width / height, near, far);
-
+	float fArray[16];
+	MathCalc::createProjectionMatrix(frustum.getWidth(), frustum.getHeight(), frustum.getFov(), frustum.getNear(), frustum.getFar(), fArray);
+		
 	if(isProgramUsed())
-		setUniform4fv("projection", glm::value_ptr(projection));
+		setUniform4fv("projection", fArray);
 	else
 	{
 		useProgram();
-		setUniform4fv("projection", glm::value_ptr(projection));
+		setUniform4fv("projection", fArray);
 		stopProgram();
 	}
 }

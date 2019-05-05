@@ -17,13 +17,20 @@ void Camera::update(float deltaTime)
 			moveDelta(it->x, it->y);
 		else if (Event::MOUSE_SCROLL == it->state)
 			moveVertical(it->x, it->y);
+		else
+			it->isOneFrameEvent = true;
 	}
 	m_eventHandler.deleteOneFrameEventsFromList();
 }
 
-EventHandler& Camera::getEventHandler()
+void Camera::addEventToList(Event aEvent)
 {
-	return m_eventHandler;
+	m_eventHandler.addEventToList(aEvent);
+}
+
+void Camera::removeEventFromList(Event aEvent)
+{
+	m_eventHandler.removeEventFromList(aEvent);
 }
 
 Vector3f Camera::getPositionVec()

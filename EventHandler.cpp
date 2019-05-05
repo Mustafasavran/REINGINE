@@ -7,15 +7,16 @@ void EventHandler::addEventToList(Event aEvent)
 
 void EventHandler::removeEventFromList(Event aEvent)
 {
-	for (std::vector<Event>::iterator it = m_eventList.begin(); it != m_eventList.end(); ++it)
+	for (std::vector<Event>::iterator it = m_eventList.begin(); it != m_eventList.end();)
 	{
 		if (aEvent.state == it->state)
 		{
-			m_eventList.erase(it);
-			break;
+			it = m_eventList.erase(it);
+			return;
 		}
-	}
-}
+		else
+			it++;
+	}}
 
 void EventHandler::deleteOneFrameEventsFromList()
 {

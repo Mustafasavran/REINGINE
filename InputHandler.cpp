@@ -1,7 +1,7 @@
 #include "InputHandler.h"
 
-InputHandler::InputHandler(Window& window, Camera& camera, std::vector<InteractableEntity*>& entityList)
-	: m_window(window), m_camera(camera), m_entityList(entityList)
+InputHandler::InputHandler(Window& window, RayCaster& rayCaster, std::vector<IUpdatable*>& updatableList)
+	: m_window(window), m_rayCaster(rayCaster), m_updatableList(updatableList)
 {
 	glfwSetWindowUserPointer(window.getWindow(), this);
 }
@@ -12,28 +12,28 @@ void InputHandler::key_callback(GLFWwindow* window, int key, int scancode, int a
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		m_window.windowShouldClose();
 
-	for (InteractableEntity* interactableEntity : m_entityList)
-	{ 
+	for (IUpdatable* updatable : m_updatableList)
+	{
 		if (key == GLFW_KEY_W && action == GLFW_PRESS)
-			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_W, false));
+			updatable->addEventToList(Event(Event::KEY_W, false));
 		else if (key == GLFW_KEY_W && action == GLFW_RELEASE)
-			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_W, false));
+			updatable->removeEventFromList(Event(Event::KEY_W, false));
 		else if (key == GLFW_KEY_S && action == GLFW_PRESS)
-			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_S, false));
+			updatable->addEventToList(Event(Event::KEY_S, false));
 		else if (key == GLFW_KEY_S && action == GLFW_RELEASE)
-			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_S, false));
+			updatable->removeEventFromList(Event(Event::KEY_S, false));
 		else if (key == GLFW_KEY_A && action == GLFW_PRESS)
-			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_A, false));
+			updatable->addEventToList(Event(Event::KEY_A, false));
 		else if (key == GLFW_KEY_A && action == GLFW_RELEASE)
-			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_A, false));
+			updatable->removeEventFromList(Event(Event::KEY_A, false));
 		else if (key == GLFW_KEY_D && action == GLFW_PRESS)
-			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_D, false));
+			updatable->addEventToList(Event(Event::KEY_D, false));
 		else if (key == GLFW_KEY_D && action == GLFW_RELEASE)
-			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_D, false));
+			updatable->removeEventFromList(Event(Event::KEY_D, false));
 		else if (key == GLFW_KEY_R && action == GLFW_PRESS)
-			interactableEntity->getEventHandler().addEventToList(Event(Event::KEY_R, false));
+			updatable->addEventToList(Event(Event::KEY_R, false));
 		else if (key == GLFW_KEY_R && action == GLFW_RELEASE)
-			interactableEntity->getEventHandler().removeEventFromList(Event(Event::KEY_R, false));
+			updatable->removeEventFromList(Event(Event::KEY_R, false));
 	}
 
 }
@@ -46,8 +46,9 @@ void InputHandler::cursor_position_callback(GLFWwindow* window, double xpos, dou
 		double yoffset = m_prevYposition - ypos; // reversed since y-coordinates go from bottom to top
 		m_prevXposition = xpos;
 		m_prevYposition = ypos;
-
-		m_camera.getEventHandler().addEventToList(Event(Event::MOUSE_BUTTON_MIDDLE_DRAGGED, true, xoffset, yoffset));
+		
+		for (IUpdatable* updatable : m_updatableList)
+			updatable->addEventToList(Event(Event::MOUSE_BUTTON_MIDDLE_DRAGGED, true, float(xoffset), float(yoffset)));
 	}
 	else
 	{
@@ -58,5 +59,23 @@ void InputHandler::cursor_position_callback(GLFWwindow* window, double xpos, dou
 
 void InputHandler::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	m_camera.getEventHandler().addEventToList(Event(Event::MOUSE_SCROLL, true, xoffset, yoffset));
+	for (IUpdatable* updatable : m_updatableList)
+		updatable->addEventToList(Event(Event::MOUSE_SCROLL, true, float(xoffset), float(yoffset)));
+}
+
+void InputHandler::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+	{
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+
+		m_rayCaster.addEventToList(Event(Event::MOUSE_BUTTON_RIGHT_PRESSED, true, float(xpos), float(ypos)));
+	}
+}
+
+void InputHandler::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	for (IUpdatable* updatable : m_updatableList)
+		updatable->addEventToList(Event(Event::WINDOW_RESIZE, true, float(width), float(height)));
 }

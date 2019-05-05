@@ -6,11 +6,6 @@ namespace Terrain
 	{
 		float texture1f = divisionFactor * 1.0f;
 		float texture0f = 0.0f;
-		/*std::vector<float> vertices = { -float(edgeLength), 0.0f, float(edgeLength), texture0f, texture0f,
-										float(edgeLength), 0.0f, -float(edgeLength), texture1f, texture1f,
-										-float(edgeLength), 0.0f, -float(edgeLength), texture0f, texture1f,
-										float(edgeLength), 0.0f, float(edgeLength), texture1f, texture0f };*/
-
 		std::vector<float> vertices = { -float(edgeLength), 0.0f, float(edgeLength), texture0f, texture0f, 0.0f, 1.0f, 0.0f,
 										float(edgeLength), 0.0f, -float(edgeLength), texture1f, texture1f, 0.0f, 1.0f, 0.0f,
 										-float(edgeLength), 0.0f, -float(edgeLength), texture0f, texture1f, 0.0f, 1.0f, 0.0f,

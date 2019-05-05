@@ -5,9 +5,10 @@
 #include "EntityShaderProgram.h"
 #include "Camera.h"
 #include "Window.h"
+#include "ViewFrustum.h"
 
 
 namespace Renderer
 {
-	void renderEntities(EntityShaderProgram& entityShaderProgram, Camera& camera, std::vector<Entity*> entityList);
+	void renderEntities(EntityShaderProgram& entityShaderProgram, Camera& camera, ViewFrustum& frustum, std::vector<Entity*> entityList);
 }

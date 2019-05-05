@@ -35,7 +35,7 @@ void main()
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
 	vec3 specular = light.specular * spec;
 
-	// attenuation (constants for distantce < 50)
+	// attenuation (constants for distance < 160)
 	float constant = 1.0;
 	float linear = 0.027;
 	float quadratic = 0.0028;
